@@ -27,5 +27,9 @@ class ConsultasService
     public function getAutoresByUnidades2($unidades):array{
         return $this->autorRepository->findByVentas2($unidades);
     }
+
+    public function getAutoresSuperVentas():array{
+        return $this->autorRepository->findAutoresSuperVentas();
+    }
     
 }

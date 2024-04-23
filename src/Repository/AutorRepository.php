@@ -47,6 +47,16 @@ class AutorRepository extends ServiceEntityRepository
 
     }
 
+    public function findAutoresSuperVentas():array{
+        
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT a FROM App\Entity\Libro li join li.autores a where li.unidadesVendidas= (select max(li2.unidadesVendidas) FROM App\Entity\Libro li2))");
+        return $query->getResult();
+
+    }
+
+    
+
     //    /**
     //     * @return Autor[] Returns an array of Autor objects
     //     */

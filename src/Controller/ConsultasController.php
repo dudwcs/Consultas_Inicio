@@ -23,7 +23,7 @@ class ConsultasController extends AbstractController
         $autores =$this->consultasService->getAutoresByFechaNac($fecha);
 
         return $this->render('consultas/index.html.twig', [
-            'controller_name' => 'ConsultasController',
+            
             'autores' => $autores
         ]);
     }
@@ -35,7 +35,7 @@ class ConsultasController extends AbstractController
         $maxUnidades = $this->consultasService->getMaxUnidades();
 
         return $this->render('consultas/index.html.twig', [
-            'controller_name' => 'ConsultasController',
+            
             'maxUnidades' => $maxUnidades
         ]);
     }
@@ -43,26 +43,38 @@ class ConsultasController extends AbstractController
 
     
     #[Route('/consultas/autores/ventas/{unidades}', name: 'app_consultas_autores_por_ventas')]
-    public function getAutoresByVentas($unidades):Response
+    public function getAutoresByVentas(int $unidades):Response
     {
 
         $autoresSuperVentas = $this->consultasService->getAutoresByUnidades($unidades);
 
         return $this->render('consultas/index.html.twig', [
-            'controller_name' => 'ConsultasController',
+           
             'autoresSuperventas' => $autoresSuperVentas
         ]);
     }
 
     #[Route('/consultas/autores/ventas2/{unidades}', name: 'app_consultas_autores_por_ventas2')]
-    public function getAutoresByVentas2($unidades):Response
+    public function getAutoresByVentas2(int $unidades):Response
     {
 
         $autoresSumaUnidades = $this->consultasService->getAutoresByUnidades2($unidades);
 
         return $this->render('consultas/index.html.twig', [
-            'controller_name' => 'ConsultasController',
+           
             'autoresSumaUnidades' => $autoresSumaUnidades
+        ]);
+    }
+
+    #[Route('/consultas/autores/maxVentas', name: 'app_consultas_autores_max_ventas')]
+    public function getAutoresMaxVentas():Response
+    {
+
+        $autoresMaxVentas = $this->consultasService->getAutoresSuperVentas();
+
+        return $this->render('consultas/index.html.twig', [
+         
+            'autoresSumaUnidades' => $autoresMaxVentas
         ]);
     }
 }
