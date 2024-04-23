@@ -70,11 +70,12 @@ class ConsultasController extends AbstractController
     public function getAutoresMaxVentas():Response
     {
 
-        $autoresMaxVentas = $this->consultasService->getAutoresSuperVentas();
+        $libroSuperVentasConAutores = $this->consultasService->getAutoresSuperVentas();
+        
 
         return $this->render('consultas/index.html.twig', [
          
-            'autoresSumaUnidades' => $autoresMaxVentas
+            'libroSuperVentas' => $libroSuperVentasConAutores
         ]);
     }
 }

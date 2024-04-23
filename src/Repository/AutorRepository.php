@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Autor;
+use App\Entity\Libro;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -47,11 +48,12 @@ class AutorRepository extends ServiceEntityRepository
 
     }
 
-    public function findAutoresSuperVentas():array{
-        
+    public function findAutoresSuperVentas():Libro{
+        //Leer https://www.doctrine-project.org/projects/doctrine-orm/en/3.1/reference/dql-doctrine-query-language.html#joins
+        //Devuelve un objeto Libro con los autores anidados en la propiedad autores
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT a FROM App\Entity\Libro li join li.autores a where li.unidadesVendidas= (select max(li2.unidadesVendidas) FROM App\Entity\Libro li2))");
-        return $query->getResult();
+        $query = $em->createQuery("SELECT a, li FROM App\Entity\Libro li join li.autores a where li.unidadesVendidas= (select max(li2.unidadesVendidas) FROM App\Entity\Libro li2)");
+        return $query->getOneOrNullResult();
 
     }
 

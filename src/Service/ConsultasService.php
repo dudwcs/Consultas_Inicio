@@ -1,6 +1,7 @@
 <?php
 namespace App\Service;
 
+use App\Entity\Libro;
 use App\Repository\AutorRepository;
 use App\Repository\LibroRepository;
 use DateTime;
@@ -28,7 +29,7 @@ class ConsultasService
         return $this->autorRepository->findByVentas2($unidades);
     }
 
-    public function getAutoresSuperVentas():array{
+    public function getAutoresSuperVentas():Libro{
         return $this->autorRepository->findAutoresSuperVentas();
     }
     
