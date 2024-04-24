@@ -51,11 +51,14 @@ class LibroRepository extends ServiceEntityRepository
             ->getQuery();
             //->getSingleScalarResult();
 
-        return $this->createQueryBuilder('li')
+        $qb=  $this->createQueryBuilder('li')
         ->addSelect('a') //para que traiga también los autores en una única consulta
-        ->innerJoin('li.autores', 'a')
-               ->andWhere('li.unidades = :val')
-               ->setParameter('val', $subqueryMaxUnidades)
+        ->innerJoin('li.autores', 'a'); 
+        $qb
+        ->andWhere($qb->expr()->eq("li.unidadesVendidas", $subqueryMaxUnidades->getDQL()))
+               //->andWhere('li.unidadesVendidas = :val')
+               //->setParameter('val', "(".$subqueryMaxUnidades->getDQL().")")
+              // ->setParameter('val', $subqueryMaxUnidades->getSingleScalarResult())
                ->getQuery()
                ->getOneOrNullResult()
            ;
