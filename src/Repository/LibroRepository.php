@@ -27,6 +27,13 @@ class LibroRepository extends ServiceEntityRepository
         return $query->getSingleScalarResult();
     }
 
+    public function findMaxUnidadesQB(){
+        return $this->createQueryBuilder('li')
+            ->select("MAX(li.unidadesVendidas) as maxUnidades")
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 
     public function findLibrosSuperVentasConAutores():Libro{
         //Leer https://www.doctrine-project.org/projects/doctrine-orm/en/3.1/reference/dql-doctrine-query-language.html#joins
@@ -36,6 +43,24 @@ class LibroRepository extends ServiceEntityRepository
         return $query->getOneOrNullResult();
 
     }
+    public function findLibrosSuperVentasConAutoresQB():Libro{
+
+
+        $subqueryMaxUnidades = $this->createQueryBuilder('li')
+            ->select("MAX(li.unidadesVendidas) as maxUnidades")
+            ->getQuery();
+            //->getSingleScalarResult();
+
+        return $this->createQueryBuilder('li')
+        ->addSelect('a') //para que traiga también los autores en una única consulta
+        ->innerJoin('li.autores', 'a')
+               ->andWhere('li.unidades = :val')
+               ->setParameter('val', $subqueryMaxUnidades)
+               ->getQuery()
+               ->getOneOrNullResult()
+           ;
+    }
+
 
 //
     // public function findLibrosSuperVentasConAutores2():Libro{
