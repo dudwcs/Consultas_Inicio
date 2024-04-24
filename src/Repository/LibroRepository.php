@@ -43,25 +43,28 @@ class LibroRepository extends ServiceEntityRepository
         return $query->getOneOrNullResult();
 
     }
-    public function findLibrosSuperVentasConAutoresQB():Libro{
+    public function findLibrosSuperVentasConAutoresQB():?Libro{
 
 
-        $subqueryMaxUnidades = $this->createQueryBuilder('li')
-            ->select("MAX(li.unidadesVendidas) as maxUnidades")
+        $subqueryMaxUnidades = $this->createQueryBuilder('li2')
+            ->select("MAX(li2.unidadesVendidas) as maxUnidades")
             ->getQuery();
             //->getSingleScalarResult();
 
         $qb=  $this->createQueryBuilder('li')
         ->addSelect('a') //para que traiga también los autores en una única consulta
         ->innerJoin('li.autores', 'a'); 
-        $qb
-        ->andWhere($qb->expr()->eq("li.unidadesVendidas", $subqueryMaxUnidades->getDQL()))
-               //->andWhere('li.unidadesVendidas = :val')
-               //->setParameter('val', "(".$subqueryMaxUnidades->getDQL().")")
+
+
+        $qb = $qb
+       ->andWhere($qb->expr()->eq("li.unidadesVendidas", "(".$subqueryMaxUnidades->getDQL().")"))
+             //  ->andWhere('li.unidadesVendidas = "(".$subqueryMaxUnidades->getDQL().")"')
+             //  ->setParameter('val', "(".$subqueryMaxUnidades->getDQL().")")
               // ->setParameter('val', $subqueryMaxUnidades->getSingleScalarResult())
-               ->getQuery()
-               ->getOneOrNullResult()
+               ->getQuery()            
            ;
+
+        return $qb->getOneOrNullResult();
     }
 
 

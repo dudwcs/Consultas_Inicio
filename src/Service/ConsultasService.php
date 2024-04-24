@@ -29,7 +29,7 @@ class ConsultasService
         return $this->autorRepository->findByVentas2QB($unidades);
     }
 
-    public function getLibrosSuperVentasConAutores():Libro{
+    public function getLibrosSuperVentasConAutores():?Libro{
         return $this->libroRepository->findLibrosSuperVentasConAutoresQB();
     }
     
