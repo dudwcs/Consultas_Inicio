@@ -67,10 +67,10 @@ class ConsultasController extends AbstractController
     }
 
     #[Route('/consultas/autores/maxVentas', name: 'app_consultas_autores_max_ventas')]
-    public function getAutoresMaxVentas():Response
+    public function getLibrosSuperVentasConAutores():Response
     {
 
-        $libroSuperVentasConAutores = $this->consultasService->getAutoresSuperVentas();
+        $libroSuperVentasConAutores = $this->consultasService->getLibrosSuperVentasConAutores();
         
 
         return $this->render('consultas/index.html.twig', [

@@ -26,11 +26,11 @@ class ConsultasService
     }
 
     public function getAutoresByUnidades2($unidades):array{
-        return $this->autorRepository->findByVentas2($unidades);
+        return $this->autorRepository->findByVentas($unidades);
     }
 
-    public function getAutoresSuperVentas():Libro{
-        return $this->autorRepository->findAutoresSuperVentas();
+    public function getLibrosSuperVentasConAutores():Libro{
+        return $this->libroRepository->findLibrosSuperVentasConAutores();
     }
     
 }
